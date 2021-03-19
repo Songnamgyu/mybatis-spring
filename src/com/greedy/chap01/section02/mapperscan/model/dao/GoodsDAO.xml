@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.greedy.chap01.section02.mapperscan.model.dao.GoodsDAO">
+  
+  <resultMap type="com.greedy.chap01.section02.mapperscan.model.dto.GoodsDTO" id="goodsResultMap">
+  	<id property="no" column="GOODS_NO"/>
+  	<result property="name" column="GOODS_NAME"/>
+  	<result property="price" column="GOODS_PRICE"/>
+  	<result property="writerMemberNo" column="GOODS_WRITER_MEMBER_NO"/>
+  	<result property="typeNo" column="GOODS_TYPE_NO"/>
+  	<result property="createdDate" column="CREATED_DATE"/>
+  	<result property="status" column="GOODS_STATUS"/>
+  	<result property="modifiedDate" column="MODIFIED_DATE"/>
+  </resultMap>
+  
+  <select id="selectGoodsList" resultMap="goodsResultMap">
+        SELECT
+               A.GOODS_NAME
+             , A.GOODS_PRICE
+             , A.GOODS_WRITER_MEMBER_NO
+             , A.GOODS_TYPE_NO
+             , A.CREATED_DATE
+             , A.GOODS_STATUS
+             , A.MODIFIED_DATE
+         FROM MG_GOODS A
+        WHERE A.GOODS_STATUS = 'Y'
+        ORDER BY A.GOODS_NO       
+  </select>
+  
+  </mapper>
