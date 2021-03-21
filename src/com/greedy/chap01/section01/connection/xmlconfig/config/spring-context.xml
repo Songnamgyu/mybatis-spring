@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- connection-properties내용 가져오기 -->
+	<context:property-placeholder location="connection-info.properties"/>
+	
+	<!-- componentScan을 이용하여 빈생성 -->
+	<context:component-scan base-package="com.greedy.chap01.section01.connection.xmlconfig"/>
+	
+	<!-- BasicdataSource이용해서 DB접근권한 정보 설정 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${oracle.dev.driver}"/>
+		<property name="url" value="${oracle.dev.url}"/>
+		<property name="username" value="${oracle.dev.username}"/>
+		<property name="password" value="${oracle.dev.password}"/>
+		<property name="defaultAutoCommit" value="false"></property>
+	</bean>
+	
+	<!-- SqlseesionFactoryBean생성 -->
+	<bean id="SqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="com/greedy/chap01/section01/connection/xmlconfig/config/mybatis-config.xml"/>
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<!-- SqlSessionTemplate 설정 -->
+	<bean id="SqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="SqlSessionFactory"/>
+	</bean>
+
+</beans>
